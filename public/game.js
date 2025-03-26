@@ -84,8 +84,6 @@ function update(deltaTime) {
     if (!isPenalized) {
         if (keys.up) {
             bird.velocity = bird.lift;
-        } else if (keys.down) {
-            bird.velocity = -bird.lift + bird.gravity;
         } else {
             bird.velocity += bird.gravity;
         }
@@ -266,18 +264,31 @@ document.addEventListener('keydown', (e) => {
     if (e.code === 'ArrowUp') {
         keys.up = true;
     }
-    if (e.code === 'ArrowDown') {
-        keys.down = true;
-    }
+    // Remove or comment out the down key functionality
+    // if (e.code === 'ArrowDown') {
+    //     keys.down = true;
+    // }
 });
 
 document.addEventListener('keyup', (e) => {
     if (e.code === 'ArrowUp') {
         keys.up = false;
     }
-    if (e.code === 'ArrowDown') {
-        keys.down = false;
-    }
+    // Remove or comment out the down key functionality
+    // if (e.code === 'ArrowDown') {
+    //     keys.down = false;
+    // }
+});
+
+// Add touch event listeners for mobile devices
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent default touch behavior
+    keys.up = true;
+});
+
+canvas.addEventListener('touchend', (e) => {
+    e.preventDefault(); // Prevent default touch behavior
+    keys.up = false;
 });
 
 // Start button event listener

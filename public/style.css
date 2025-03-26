@@ -3,16 +3,21 @@ body, html {
     padding: 0;
     overflow: hidden;
     font-family: Arial, sans-serif;
+    height: 100%;
 }
 
 #gameCanvas {
     display: block;
     margin: 0 auto;
     background-color: #87CEEB;
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+    max-height: 600px;
 }
 
 .overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -23,10 +28,15 @@ body, html {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .overlay-content {
     text-align: center;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
 }
 
 #startButton {

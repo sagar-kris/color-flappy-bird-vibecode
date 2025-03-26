@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flappy Bird Game</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles to ensure text fits within the game screen */
+        .overlay-content h1 {
+            font-size: 2em; /* Responsive font size */
+        }
+        .overlay-content p, .overlay-content ul {
+            font-size: 1em; /* Responsive font size */
+            max-width: 90%; /* Ensure text does not exceed screen width */
+            margin: 0 auto; /* Center text */
+        }
+        .overlay-content ul {
+            padding-left: 20px; /* Add padding for list items */
+        }
+    </style>
 </head>
 <body>
     <div id="startScreen" class="overlay">
@@ -13,15 +27,15 @@
             <p>Instructions:</p>
             <ul>
                 <li>Press the "up" arrow key to make the bird fly up.</li>
-                <li>Press the "down" arrow key to make the bird fly down.</li>
                 <li>Avoid the pipes and stay within the screen boundaries.</li>
                 <li>The "game mode" toggle at the top left dictates if the current mode of the game is "text mode" or "color mode". This toggle changes randomly every 5 seconds.</li>
                 <li>Words pop up every 5 seconds on the screen. Before the refresh timer hits the first black line (3 seconds), you have to say out loud the word text if the game is in "text mode", or say out loud the word color if the game is in "color mode".</li>
                 <li>Basically, speak the correct color or text of the word that pops up on the screen based on the game mode. You have 3 seconds to do this. (Mode = ___ at the top left)</li>
                 <li>The options for word text / colors are 'red', 'green', 'blue', 'yellow', 'purple', 'orange', 'pink', 'brown', 'black', 'white'.</li>
+                <li>For example, if the word 'blue' pops up in the color red. If the game is on text mode, say "blue". If the game is on color mode, say "red".</li>
                 <li>If you are correct, congrats. If you are not... the controls are locked for the last 1 second of the timer until the timer refreshes. Your bird is frozen!</li>
                 <li>Have fun!</li>
-                <li>Note, the first time the game starts, the browser will ask you for microphone permission. Click allow for this website. Browser-wise, Google Chrome works best.</li>
+                <li>Note, the first time the game starts, the browser will ask you for microphone permission. Click allow for this website. On desktop, Google Chrome works best.</li>
             </ul>
             <button id="startButton">Start Game</button>
         </div>
