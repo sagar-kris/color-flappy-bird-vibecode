@@ -11,6 +11,7 @@ const pipeWidth = 20;
 const basePipeGap = 150; // Base gap for pipes
 let gameOver = false;
 let score = 0; // Initialize score
+let highScore = 0; // Initialize high score
 let speedFactor = 1; // Initialize speed factor
 
 // Timer variables
@@ -31,6 +32,9 @@ let recognition;
 let spokenWord = '';
 let isPenalized = false;
 let isRecognitionActive = false; // Flag to track if recognition is active
+
+// Add a variable to store the restart button
+let restartButton;
 
 // Initialize speech recognition
 if ('webkitSpeechRecognition' in window) {
@@ -120,6 +124,11 @@ function update(deltaTime) {
         speedFactor += 0.0001;
     }
 
+    // Update high score
+    if (score > highScore) {
+        highScore = score;
+    }
+
     // Update timer
     timer -= deltaTime;
     if (timer <= 0) {
@@ -186,12 +195,17 @@ function draw() {
         ctx.fillRect(pipe.x, pipe.y, pipe.width, pipe.height);
     });
 
-    // Draw score
+    // Draw high score
     ctx.fillStyle = 'black';
     ctx.font = '24px serif';
+    const highScoreText = `High Score: ${highScore}`;
+    const highScoreWidth = ctx.measureText(highScoreText).width;
+    ctx.fillText(highScoreText, canvas.width - highScoreWidth - 10, 30); // Adjusted position to top right
+
+    // Draw score
     const scoreText = `Score: ${score}`;
     const scoreWidth = ctx.measureText(scoreText).width;
-    ctx.fillText(scoreText, canvas.width - scoreWidth - 10, 30); // Adjusted position to top right
+    ctx.fillText(scoreText, canvas.width - scoreWidth - 10, 60); // Adjusted position below high score
 
     // Draw timer as a health bar
     const barWidth = 100;
@@ -242,6 +256,34 @@ function draw() {
     ctx.fillText(currentWord, barX + 20, barY + 80);
 }
 
+// Function to reset the game state
+function resetGame() {
+    bird = { x: 50, y: 150, width: 20, height: 20, gravity: 0.08, lift: -2.2, velocity: 0 };
+    pipes = [];
+    frame = 0;
+    gameOver = false;
+    score = 0;
+    // highScore = 0;
+    speedFactor = 1;
+    timer = timerDuration;
+    modeChangeCounter = 0;
+    gameMode = 'text';
+    currentWord = colors[Math.floor(Math.random() * colors.length)];
+    currentWordColor = colors[Math.floor(Math.random() * colors.length)];
+    spokenWord = '';
+    isPenalized = false;
+    isRecognitionActive = false;
+
+    // Remove the restart button if it exists
+    if (restartButton) {
+        restartButton.remove();
+        restartButton = null;
+    }
+
+    // Restart the game loop
+    requestAnimationFrame(gameLoop);
+}
+
 // Main game loop
 let lastTime = 0;
 function gameLoop(timestamp) {
@@ -256,6 +298,23 @@ function gameLoop(timestamp) {
         ctx.fillStyle = 'red';
         ctx.font = '48px serif';
         ctx.fillText('Game Over', canvas.width / 2 - 100, canvas.height / 2);
+
+        // Create and display the restart button if it doesn't exist
+        if (!restartButton) {
+            restartButton = document.createElement('button');
+            restartButton.textContent = 'Restart Game';
+            restartButton.style.position = 'absolute';
+            restartButton.style.left = '50%';
+            restartButton.style.top = '60%';
+            restartButton.style.transform = 'translate(-50%, -50%)';
+            restartButton.style.padding = '10px 20px';
+            restartButton.style.fontSize = '18px';
+            restartButton.style.cursor = 'pointer';
+            document.body.appendChild(restartButton);
+
+            // Add event listener to restart the game
+            restartButton.addEventListener('click', resetGame);
+        }
     }
 }
 
@@ -295,4 +354,9 @@ canvas.addEventListener('touchend', (e) => {
 startButton.addEventListener('click', () => {
     startScreen.style.display = 'none'; // Hide the start screen
     requestAnimationFrame(gameLoop); // Start the game loop
-}); 
+});
+
+// Todo: fix pipe spacing / rendering code
+// Todo: add a portal
+// Todo: make the bird and pipe graphics cooler and add clouds
+// Todo: add multiplayer capability?
